@@ -1,4 +1,5 @@
 import { Scale } from 'lucide-react';
+import React from "react";
 
 interface LogoProps {
   variant?: 'white' | 'navy';

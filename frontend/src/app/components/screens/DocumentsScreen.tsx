@@ -54,11 +54,10 @@ export function DocumentsScreen() {
         <div
           style={{
             background: '#1B2B4B',
-            padding: '40px 32px',
             flexShrink: 0,
             position: 'relative',
           }}
-          className="w-full md:w-72"
+          className="w-full md:w-72 p-6 md:p-[40px_32px]"
         >
           {/* Project info */}
           <div style={{ marginBottom: '40px' }}>
@@ -161,9 +160,9 @@ export function DocumentsScreen() {
 
         {/* Main panel */}
         <div
+          className="p-4 sm:p-8 md:p-[40px_48px]"
           style={{
             flex: 1,
-            padding: '40px 48px',
             overflowY: 'auto',
             position: 'relative',
           }}
@@ -309,11 +308,11 @@ export function DocumentsScreen() {
         style={{
           position: 'fixed',
           bottom: '88px',
-          right: '32px',
+          right: '16px',
           background: '#E8D9B5',
           borderRadius: '16px',
           padding: '20px 24px',
-          maxWidth: '320px',
+          maxWidth: 'min(320px, calc(100vw - 32px))',
           boxShadow: '0 8px 32px rgba(27, 43, 75, 0.15)',
           border: '1px solid rgba(201, 168, 76, 0.25)',
           zIndex: 50,

@@ -23,11 +23,10 @@ export function HomeScreen() {
           background: '#1B2B4B',
           display: 'flex',
           flexDirection: 'column',
-          padding: '48px 52px',
           position: 'relative',
           overflow: 'hidden',
         }}
-        className="w-full md:w-[42%] min-h-[50vh] md:min-h-screen"
+        className="w-full md:w-[42%] min-h-[50vh] md:min-h-screen p-8 md:px-[52px] md:py-12"
       >
         {/* Decorative rings */}
         <div
@@ -117,10 +116,10 @@ export function HomeScreen() {
               Espace personnel sécurisé
             </p>
             <h1
+              className="text-4xl md:text-[48px]"
               style={{
                 fontFamily: "'DM Serif Display', serif",
                 color: 'white',
-                fontSize: '48px',
                 lineHeight: 1.15,
                 marginBottom: '20px',
                 fontWeight: 400,
@@ -163,8 +162,8 @@ export function HomeScreen() {
           background: '#F8F6F1',
           display: 'flex',
           flexDirection: 'column',
-          padding: '48px 56px',
         }}
+        className="px-6 py-10 md:px-14 md:py-12"
       >
         {/* Top right area */}
         <div
@@ -335,10 +334,10 @@ function ActionCard({ icon, title, description, cta, ctaVariant, onClick }: Acti
   return (
     <div
       onClick={onClick}
+      className="p-5 md:p-[32px_36px]"
       style={{
         background: 'white',
         borderRadius: '16px',
-        padding: '32px 36px',
         boxShadow: '0 4px 24px rgba(27, 43, 75, 0.07)',
         border: '1px solid rgba(27, 43, 75, 0.06)',
         display: 'flex',

@@ -80,7 +80,7 @@ export function SendScreen() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          padding: '48px 24px',
+          padding: '32px 16px',
           paddingBottom: '120px',
         }}
       >
@@ -120,10 +120,10 @@ export function SendScreen() {
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <h1
+                className="text-2xl md:text-[36px]"
                 style={{
                   fontFamily: "'DM Serif Display', serif",
                   color: '#1B2B4B',
-                  fontSize: '36px',
                   fontWeight: 400,
                   lineHeight: 1.2,
                   marginBottom: '10px',
@@ -168,10 +168,8 @@ export function SendScreen() {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: '16px',
               }}
-              className="grid-cols-1 sm:grid-cols-2"
+              className="grid-cols-1 sm:grid-cols-2 gap-4"
             >
               <SummaryItem
                 icon={<FileText size={15} color="#C9A84C" />}
@@ -480,7 +478,7 @@ function NotaryCard({ notary, isSelected, onSelect }: NotaryCardProps) {
 
       {/* Info */}
       <div style={{ flex: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '4px' }}>
           <p style={{ color: '#2C2C2C', fontSize: '15px', fontWeight: 500 }}>{notary.name}</p>
           <span
             style={{
@@ -499,7 +497,7 @@ function NotaryCard({ notary, isSelected, onSelect }: NotaryCardProps) {
           </span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', rowGap: '4px' }}>
           <span
             style={{
               display: 'flex',

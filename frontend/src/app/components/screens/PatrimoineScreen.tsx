@@ -20,7 +20,7 @@ import {
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { useNavigate, useLocation } from 'react-router';
 import { Logo } from '../Logo';
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const NAV_ITEMS = [
   { icon: LayoutDashboard, label: 'Tableau de bord', path: '/patrimoine' },
@@ -142,6 +142,25 @@ const CustomTooltip = ({ active, payload }: any) => {
 export function PatrimoineScreen() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+
+  function openNav() {
+    if (isMobile && suggestionsOpen) setSuggestionsOpen(false);
+    setNavOpen(true);
+  }
+
+  function openSuggestions() {
+    if (isMobile && navOpen) setNavOpen(false);
+    setSuggestionsOpen(true);
+  }
 
   return (
     <div
@@ -156,125 +175,213 @@ export function PatrimoineScreen() {
 
 
       {/* Body */}
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        {/* Left Sidebar */}
-        <div
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative' }}>
+        {/* Left Sidebar (collapsible, collapsed by default) */}
+        <motion.div
+          animate={{ width: navOpen ? 230 : 48 }}
+          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
           style={{
-            width: '230px',
             background: '#1B2B4B',
-            padding: '32px 0',
-            flexShrink: 0,
+            flexShrink: isMobile ? 0 : 0,
             display: 'flex',
             flexDirection: 'column',
+            overflowX: 'hidden',
+            overflowY: navOpen ? 'auto' : 'hidden',
+            ...(isMobile && navOpen ? {
+              position: 'absolute',
+              top: 0,
+              bottom: 0,
+              left: 0,
+              zIndex: 20,
+            } : {}),
           }}
-          className="hidden md:flex"
         >
-          <p
-            style={{
-              color: 'rgba(255,255,255,0.3)',
-              fontSize: '10px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-              padding: '0 24px',
-              marginBottom: '16px',
-              fontWeight: 600,
-            }}
-          >
-            Navigation
-          </p>
-
-          {NAV_ITEMS.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.path && item.path !== '#';
-            return (
-              <button
-                key={item.label}
-                onClick={() => item.path !== '#' && navigate(item.path)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  padding: '12px 24px',
-                  background: isActive ? 'rgba(201, 168, 76, 0.12)' : 'transparent',
-                  borderLeft: isActive ? '3px solid #C9A84C' : '3px solid transparent',
-                  border: 'none',
-                  borderRight: 'none',
-                  borderTop: 'none',
-                  borderBottom: 'none',
-                  width: '100%',
-                  textAlign: 'left',
-                  cursor: item.path !== '#' ? 'pointer' : 'default',
-                  color: isActive ? '#C9A84C' : 'rgba(255,255,255,0.6)',
-                  transition: 'all 0.15s ease',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '14px',
-                  fontWeight: isActive ? 600 : 400,
-                }}
-                onMouseEnter={(e) => {
-                  if (!isActive) {
-                    (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.9)';
-                    (e.currentTarget as HTMLButtonElement).style.background =
-                      'rgba(255,255,255,0.04)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive) {
-                    (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.6)';
-                    (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
-                  }
-                }}
-              >
-                <Icon size={17} strokeWidth={isActive ? 2 : 1.5} />
-                {item.label}
-              </button>
-            );
-          })}
-
-          {/* Bottom section */}
-          <div style={{ marginTop: 'auto', padding: '0 24px' }}>
+          {/* Collapsed strip */}
+          {!navOpen && (
             <div
               style={{
-                height: '1px',
-                background: 'rgba(255,255,255,0.06)',
-                marginBottom: '20px',
-              }}
-            />
-            <div
-              style={{
-                background: 'rgba(201, 168, 76, 0.1)',
-                borderRadius: '10px',
-                padding: '14px',
-                border: '1px solid rgba(201, 168, 76, 0.15)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                paddingTop: '32px',
+                gap: '20px',
               }}
             >
-              <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '12px', lineHeight: 1.5 }}>
-                <strong style={{ color: '#C9A84C' }}>Nouveau :</strong> Planifiez une consultation
-                avec votre notaire.
-              </p>
+              {/* Toggle button */}
               <button
+                onClick={openNav}
                 style={{
-                  marginTop: '10px',
-                  color: '#C9A84C',
                   background: 'none',
                   border: 'none',
-                  fontSize: '12px',
-                  fontFamily: "'Inter', sans-serif",
-                  fontWeight: 600,
                   cursor: 'pointer',
-                  padding: 0,
+                  padding: '4px',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '4px',
+                  justifyContent: 'center',
+                  color: 'rgba(255,255,255,0.5)',
                 }}
               >
-                Réserver <ChevronRight size={12} />
+                <ChevronRight size={18} />
               </button>
+              {/* Nav icons */}
+              {NAV_ITEMS.map((item) => {
+                const Icon = item.icon;
+                const isActive = location.pathname === item.path && item.path !== '#';
+                return (
+                  <button
+                    key={item.label}
+                    onClick={() => item.path !== '#' && navigate(item.path)}
+                    title={item.label}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: item.path !== '#' ? 'pointer' : 'default',
+                      padding: '6px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: isActive ? '#C9A84C' : 'rgba(255,255,255,0.45)',
+                    }}
+                  >
+                    <Icon size={17} strokeWidth={isActive ? 2 : 1.5} />
+                  </button>
+                );
+              })}
             </div>
-          </div>
-        </div>
+          )}
+
+          {/* Expanded content */}
+          {navOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2, delay: 0.15 }}
+              style={{ display: 'flex', flexDirection: 'column', flex: 1, padding: '32px 0', minWidth: '230px' }}
+            >
+              {/* Header with collapse button */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '0 24px',
+                  marginBottom: '16px',
+                }}
+              >
+                <p
+                  style={{
+                    color: 'rgba(255,255,255,0.3)',
+                    fontSize: '10px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                    fontWeight: 600,
+                  }}
+                >
+                  Navigation
+                </p>
+                <button
+                  onClick={() => setNavOpen(false)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    color: 'rgba(255,255,255,0.3)',
+                  }}
+                >
+                  <ChevronRight size={14} style={{ transform: 'rotate(180deg)' }} />
+                </button>
+              </div>
+
+              {NAV_ITEMS.map((item) => {
+                const Icon = item.icon;
+                const isActive = location.pathname === item.path && item.path !== '#';
+                return (
+                  <button
+                    key={item.label}
+                    onClick={() => item.path !== '#' && navigate(item.path)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      padding: '12px 24px',
+                      background: isActive ? 'rgba(201, 168, 76, 0.12)' : 'transparent',
+                      borderLeft: isActive ? '3px solid #C9A84C' : '3px solid transparent',
+                      border: 'none',
+                      borderRight: 'none',
+                      borderTop: 'none',
+                      borderBottom: 'none',
+                      width: '100%',
+                      textAlign: 'left',
+                      cursor: item.path !== '#' ? 'pointer' : 'default',
+                      color: isActive ? '#C9A84C' : 'rgba(255,255,255,0.6)',
+                      transition: 'all 0.15s ease',
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: '14px',
+                      fontWeight: isActive ? 600 : 400,
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.9)';
+                        (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.04)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.6)';
+                        (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+                      }
+                    }}
+                  >
+                    <Icon size={17} strokeWidth={isActive ? 2 : 1.5} />
+                    {item.label}
+                  </button>
+                );
+              })}
+
+              {/* Bottom section */}
+              <div style={{ marginTop: 'auto', padding: '0 24px' }}>
+                <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)', marginBottom: '20px' }} />
+                <div
+                  style={{
+                    background: 'rgba(201, 168, 76, 0.1)',
+                    borderRadius: '10px',
+                    padding: '14px',
+                    border: '1px solid rgba(201, 168, 76, 0.15)',
+                  }}
+                >
+                  <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '12px', lineHeight: 1.5 }}>
+                    <strong style={{ color: '#C9A84C' }}>Nouveau :</strong> Planifiez une consultation
+                    avec votre notaire.
+                  </p>
+                  <button
+                    style={{
+                      marginTop: '10px',
+                      color: '#C9A84C',
+                      background: 'none',
+                      border: 'none',
+                      fontSize: '12px',
+                      fontFamily: "'Inter', sans-serif",
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      padding: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                    }}
+                  >
+                    Réserver <ChevronRight size={12} />
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </motion.div>
 
         {/* Main content */}
-        <div style={{ flex: 1, padding: '40px', overflowY: 'auto' }}>
+        <div className="p-4 md:p-10" style={{ flex: 1, overflowY: 'auto' }}>
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -293,10 +400,10 @@ export function PatrimoineScreen() {
                 Valeur totale estimée
               </p>
               <h1
+                className="text-4xl md:text-[52px]"
                 style={{
                   fontFamily: "'DM Serif Display', serif",
                   color: '#C9A84C',
-                  fontSize: '52px',
                   fontWeight: 400,
                   lineHeight: 1,
                   marginBottom: '6px',
@@ -326,11 +433,9 @@ export function PatrimoineScreen() {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '16px',
                 marginBottom: '32px',
               }}
-              className="grid-cols-1 sm:grid-cols-3"
+              className="grid-cols-1 sm:grid-cols-3 gap-4"
             >
               {KPIS.map((kpi, i) => {
                 const Icon = kpi.icon;
@@ -706,29 +811,41 @@ export function PatrimoineScreen() {
           </motion.div>
         </div>
 
-        {/* Right panel — AI Suggestions */}
-        <div
+        {/* Right panel — AI Suggestions (collapsible, collapsed by default) */}
+        <motion.div
+          animate={{ width: suggestionsOpen ? 300 : 48 }}
+          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
           style={{
-            width: '300px',
             background: 'white',
             borderLeft: '1px solid rgba(27, 43, 75, 0.07)',
-            padding: '32px 24px',
-            overflowY: 'auto',
+            overflowY: suggestionsOpen ? 'auto' : 'hidden',
+            overflowX: 'hidden',
             flexShrink: 0,
+            ...(isMobile && suggestionsOpen ? {
+              position: 'absolute',
+              top: 0,
+              bottom: 0,
+              right: 0,
+              zIndex: 20,
+            } : {}),
           }}
-          className="hidden lg:block"
         >
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <div
+          {/* Collapsed strip */}
+          {!suggestionsOpen && (
+            <button
+              onClick={openSuggestions}
               style={{
+                width: '100%',
+                height: '100%',
+                minHeight: '200px',
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
-                gap: '10px',
-                marginBottom: '24px',
+                paddingTop: '32px',
+                gap: '14px',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
               }}
             >
               <div
@@ -740,146 +857,174 @@ export function PatrimoineScreen() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  flexShrink: 0,
                 }}
               >
                 <Lightbulb size={16} color="#C9A84C" strokeWidth={1.8} />
               </div>
-              <h2
+              <span
                 style={{
-                  fontFamily: "'DM Serif Display', serif",
+                  writingMode: 'vertical-rl',
+                  transform: 'rotate(180deg)',
                   color: '#1B2B4B',
-                  fontSize: '18px',
-                  fontWeight: 400,
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  fontFamily: "'Inter', sans-serif",
                 }}
               >
-                Suggestions intelligentes
-              </h2>
-            </div>
+                Suggestions
+              </span>
+            </button>
+          )}
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {SUGGESTIONS.map((s, i) => (
-                <motion.div
-                  key={s.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
-                  style={{
-                    background: '#E8D9B5',
-                    borderRadius: '12px',
-                    padding: '18px',
-                    border: '1px solid rgba(201, 168, 76, 0.2)',
-                    position: 'relative',
-                  }}
-                >
+          {/* Expanded content */}
+          {suggestionsOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2, delay: 0.15 }}
+              style={{ padding: '32px 24px', minWidth: '300px' }}
+            >
+              {/* Header with collapse button */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '24px',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <div
                     style={{
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      gap: '10px',
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: '6px',
-                        height: '6px',
-                        borderRadius: '50%',
-                        background: '#C9A84C',
-                        flexShrink: 0,
-                        marginTop: '6px',
-                      }}
-                    />
-                    <div>
-                      <p
-                        style={{
-                          color: '#1B2B4B',
-                          fontSize: '13px',
-                          fontWeight: 600,
-                          marginBottom: '6px',
-                        }}
-                      >
-                        {s.title}
-                      </p>
-                      <p
-                        style={{
-                          color: '#6B7280',
-                          fontSize: '12px',
-                          lineHeight: 1.6,
-                        }}
-                      >
-                        {s.detail}
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    style={{
-                      marginTop: '12px',
-                      color: '#C9A84C',
-                      background: 'none',
-                      border: 'none',
-                      fontSize: '12px',
-                      fontFamily: "'Inter', sans-serif",
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                      padding: 0,
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '10px',
+                      background: 'rgba(201, 168, 76, 0.12)',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '4px',
+                      justifyContent: 'center',
                     }}
                   >
-                    En savoir plus <ChevronRight size={11} />
-                  </button>
-                </motion.div>
-              ))}
-            </div>
+                    <Lightbulb size={16} color="#C9A84C" strokeWidth={1.8} />
+                  </div>
+                  <h2
+                    style={{
+                      fontFamily: "'DM Serif Display', serif",
+                      color: '#1B2B4B',
+                      fontSize: '18px',
+                      fontWeight: 400,
+                    }}
+                  >
+                    Suggestions intelligentes
+                  </h2>
+                </div>
+                <button
+                  onClick={() => setSuggestionsOpen(false)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    color: '#9CA3AF',
+                    flexShrink: 0,
+                  }}
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
 
-            {/* Separator */}
-            <div
-              style={{
-                height: '1px',
-                background: 'rgba(27, 43, 75, 0.07)',
-                margin: '24px 0',
-              }}
-            />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {SUGGESTIONS.map((s, i) => (
+                  <motion.div
+                    key={s.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: i * 0.08 }}
+                    style={{
+                      background: '#E8D9B5',
+                      borderRadius: '12px',
+                      padding: '18px',
+                      border: '1px solid rgba(201, 168, 76, 0.2)',
+                      position: 'relative',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                      <div
+                        style={{
+                          width: '6px',
+                          height: '6px',
+                          borderRadius: '50%',
+                          background: '#C9A84C',
+                          flexShrink: 0,
+                          marginTop: '6px',
+                        }}
+                      />
+                      <div>
+                        <p style={{ color: '#1B2B4B', fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>
+                          {s.title}
+                        </p>
+                        <p style={{ color: '#6B7280', fontSize: '12px', lineHeight: 1.6 }}>
+                          {s.detail}
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      style={{
+                        marginTop: '12px',
+                        color: '#C9A84C',
+                        background: 'none',
+                        border: 'none',
+                        fontSize: '12px',
+                        fontFamily: "'Inter', sans-serif",
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        padding: 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                      }}
+                    >
+                      En savoir plus <ChevronRight size={11} />
+                    </button>
+                  </motion.div>
+                ))}
+              </div>
 
-            {/* Notary promo */}
-            <div
-              style={{
-                background: '#1B2B4B',
-                borderRadius: '12px',
-                padding: '20px',
-              }}
-            >
-              <p
-                style={{
-                  color: 'rgba(255,255,255,0.9)',
-                  fontSize: '13px',
-                  lineHeight: 1.6,
-                  marginBottom: '14px',
-                }}
-              >
-                Votre notaire{' '}
-                <strong style={{ color: '#C9A84C' }}>Me. Fontaine</strong> est disponible pour
-                un rendez-vous cette semaine.
-              </p>
-              <button
-                style={{
-                  background: '#C9A84C',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  padding: '9px 16px',
-                  fontSize: '13px',
-                  fontFamily: "'Inter', sans-serif",
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  width: '100%',
-                }}
-              >
-                Planifier une consultation
-              </button>
-            </div>
-          </motion.div>
-        </div>
+              {/* Separator */}
+              <div style={{ height: '1px', background: 'rgba(27, 43, 75, 0.07)', margin: '24px 0' }} />
+
+              {/* Notary promo */}
+              <div style={{ background: '#1B2B4B', borderRadius: '12px', padding: '20px' }}>
+                <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '13px', lineHeight: 1.6, marginBottom: '14px' }}>
+                  Votre notaire{' '}
+                  <strong style={{ color: '#C9A84C' }}>Me. Fontaine</strong> est disponible pour
+                  un rendez-vous cette semaine.
+                </p>
+                <button
+                  style={{
+                    background: '#C9A84C',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '9px 16px',
+                    fontSize: '13px',
+                    fontFamily: "'Inter', sans-serif",
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    width: '100%',
+                  }}
+                >
+                  Planifier une consultation
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </motion.div>
       </div>
 
     </div>

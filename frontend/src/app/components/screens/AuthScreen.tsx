@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import { Logo } from '../Logo';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { login, register, resetAuthStatus, selectAuthError, selectAuthStatus, selectIsAuthenticated } from '../../features/usersSlice';
+import React from "react";
 
 const TRUST_ITEMS = [
   { icon: Shield, label: 'Données chiffrées AES-256' },
@@ -71,11 +72,10 @@ export function AuthScreen() {
           background: '#1B2B4B',
           display: 'flex',
           flexDirection: 'column',
-          padding: '52px 56px',
           position: 'relative',
           overflow: 'hidden',
         }}
-        className="w-full md:w-[46%] min-h-[44vh] md:min-h-screen"
+        className="w-full md:w-[46%] min-h-[44vh] md:min-h-screen p-8 md:px-14 md:py-[52px]"
       >
         {/* Decorative rings */}
         {[
@@ -130,10 +130,10 @@ export function AuthScreen() {
             Plateforme notariale de confiance
           </p>
           <h1
+            className="text-3xl md:text-[42px]"
             style={{
               fontFamily: "'DM Serif Display', serif",
               color: 'white',
-              fontSize: '42px',
               lineHeight: 1.15,
               fontWeight: 400,
               marginBottom: '20px',
@@ -198,7 +198,8 @@ export function AuthScreen() {
           transition={{ duration: 0.5, delay: 0.8 }}
           style={{
             display: 'flex',
-            gap: '32px',
+            gap: '24px',
+            flexWrap: 'wrap',
             borderTop: '1px solid rgba(255,255,255,0.08)',
             paddingTop: '24px',
           }}
@@ -235,8 +236,8 @@ export function AuthScreen() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '48px 40px',
         }}
+        className="px-4 py-10 md:px-10 md:py-12"
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -318,7 +319,7 @@ export function AuthScreen() {
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                   {/* Name fields (register only) */}
                   {mode === 'register' && (
-                    <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', gap: '14px' }} className="flex-col sm:flex-row">
                       <FormField
                         icon={<User size={15} color="#9CA3AF" />}
                         placeholder="Prénom"

@@ -43,6 +43,8 @@ export function AppNav() {
                         boxShadow: '0 8px 32px rgba(27, 43, 75, 0.45)',
                         alignItems: 'center',
                         border: '1px solid rgba(201, 168, 76, 0.2)',
+                        maxWidth: 'calc(100vw - 32px)',
+                        overflowX: 'auto',
                     }}
                 >
                     {NAV_SCREENS.map((screen) => {

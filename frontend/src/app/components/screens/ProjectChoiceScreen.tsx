@@ -66,10 +66,10 @@ export function ProjectChoiceScreen() {
           {/* Header */}
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <h1
+              className="text-3xl md:text-[38px]"
               style={{
                 fontFamily: "'DM Serif Display', serif",
                 color: '#1B2B4B',
-                fontSize: '38px',
                 fontWeight: 400,
                 lineHeight: 1.2,
                 marginBottom: '12px',
@@ -86,11 +86,9 @@ export function ProjectChoiceScreen() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: '18px',
               marginBottom: '40px',
             }}
-            className="grid-cols-1 sm:grid-cols-2"
+            className="grid-cols-1 sm:grid-cols-2 gap-[18px]"
           >
             {PROJECTS.map((project, index) => {
               const Icon = project.icon;
