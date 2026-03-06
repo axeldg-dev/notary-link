@@ -64,6 +64,13 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
+        <!-- Swagger v3 annotations (required by openapi-generator generated code) -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>2.2.28</version>
+        </dependency>
+
         <!-- JWT -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -143,7 +150,7 @@
                                 <openApiNullable>false</openApiNullable>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useTags>true</useTags>
-                                <additionalModelTypeAnnotations>@lombok.Getter @lombok.Setter @lombok.NoArgsConstructor</additionalModelTypeAnnotations>
+                                <additionalModelTypeAnnotations>@lombok.Getter @lombok.Setter</additionalModelTypeAnnotations>
                             </configOptions>
                         </configuration>
                     </execution>

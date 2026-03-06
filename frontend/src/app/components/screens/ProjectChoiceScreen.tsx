@@ -3,7 +3,6 @@ import { motion } from 'motion/react';
 import { Home, Users, Gift, Folder, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import type { ReactNode } from 'react';
-import { Navbar, DemoNav } from '../Navbar';
 
 const PROJECTS = [
   {
@@ -46,7 +45,7 @@ export function ProjectChoiceScreen() {
         fontFamily: "'Inter', sans-serif",
       }}
     >
-      <Navbar breadcrumb="Nouveau projet" />
+
 
       <div
         style={{
@@ -189,7 +188,6 @@ export function ProjectChoiceScreen() {
         </motion.div>
       </div>
 
-      <DemoNav />
     </div>
   );
 }

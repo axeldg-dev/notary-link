@@ -3,7 +3,7 @@ import { ChevronDown, FileText, Check, PieChart, Shield, Lock, Flag } from 'luci
 import { useNavigate } from 'react-router';
 import type { ReactNode } from 'react';
 import { Logo } from '../Logo';
-import { DemoNav } from '../Navbar';
+import React from "react";
 
 export function HomeScreen() {
   const navigate = useNavigate();
@@ -281,7 +281,6 @@ export function HomeScreen() {
         </motion.div>
       </div>
 
-      <DemoNav />
     </div>
   );
 }

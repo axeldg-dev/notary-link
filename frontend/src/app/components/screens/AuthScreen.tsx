@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight, Shield, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { Logo } from '../Logo';
-import { DemoNav } from '../Navbar';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { login, register, resetAuthStatus, selectAuthError, selectAuthStatus, selectIsAuthenticated } from '../../features/usersSlice';
 
@@ -34,7 +33,7 @@ export function AuthScreen() {
 
   useEffect(() => {
     if (isAuthenticated) navigate('/home');
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated]);
 
   function handleModeChange(m: 'login' | 'register') {
     setMode(m);
@@ -545,7 +544,6 @@ export function AuthScreen() {
         </motion.div>
       </div>
 
-      <DemoNav />
     </div>
   );
 }

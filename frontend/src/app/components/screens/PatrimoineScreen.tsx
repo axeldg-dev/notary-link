@@ -20,7 +20,7 @@ import {
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { useNavigate, useLocation } from 'react-router';
 import { Logo } from '../Logo';
-import { DemoNav } from '../Navbar';
+import React from "react";
 
 const NAV_ITEMS = [
   { icon: LayoutDashboard, label: 'Tableau de bord', path: '/patrimoine' },
@@ -153,61 +153,7 @@ export function PatrimoineScreen() {
         fontFamily: "'Inter', sans-serif",
       }}
     >
-      {/* Top Navbar */}
-      <nav
-        style={{
-          background: 'white',
-          borderBottom: '1px solid rgba(27, 43, 75, 0.08)',
-          height: '64px',
-          display: 'flex',
-          alignItems: 'center',
-          padding: '0 32px',
-          flexShrink: 0,
-          boxShadow: '0 1px 20px rgba(27, 43, 75, 0.05)',
-          zIndex: 100,
-        }}
-      >
-        <button
-          onClick={() => navigate('/home')}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
-        >
-          <Logo variant="navy" size="sm" />
-        </button>
-        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <button
-            style={{
-              background: '#C9A84C',
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '8px 16px',
-              fontSize: '13px',
-              fontFamily: "'Inter', sans-serif",
-              fontWeight: 500,
-              cursor: 'pointer',
-            }}
-          >
-            + Ajouter un bien
-          </button>
-          <div
-            style={{
-              width: '34px',
-              height: '34px',
-              borderRadius: '50%',
-              background: '#1B2B4B',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#C9A84C',
-              fontSize: '13px',
-              fontFamily: "'DM Serif Display', serif",
-              cursor: 'pointer',
-            }}
-          >
-            SM
-          </div>
-        </div>
-      </nav>
+
 
       {/* Body */}
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
@@ -936,7 +882,6 @@ export function PatrimoineScreen() {
         </div>
       </div>
 
-      <DemoNav />
     </div>
   );
 }

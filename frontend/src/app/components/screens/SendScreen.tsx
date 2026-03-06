@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import type { ReactNode } from 'react';
-import { Navbar, DemoNav } from '../Navbar';
+import React from "react";
 
 const NOTARIES = [
   {
@@ -72,7 +72,7 @@ export function SendScreen() {
         fontFamily: "'Inter', sans-serif",
       }}
     >
-      <Navbar breadcrumb="Envoi du dossier" />
+
 
       <div
         style={{
@@ -374,7 +374,6 @@ export function SendScreen() {
         </div>
       </div>
 
-      <DemoNav />
     </div>
   );
 }

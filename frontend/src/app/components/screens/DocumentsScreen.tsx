@@ -9,7 +9,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import { Navbar, DemoNav } from '../Navbar';
+import React from "react";
 
 const STEPS = [
   { id: 1, label: 'Projet', status: 'done' as const },
@@ -47,7 +47,7 @@ export function DocumentsScreen() {
         fontFamily: "'Inter', sans-serif",
       }}
     >
-      <Navbar breadcrumb="Achat immobilier" />
+
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }} className="flex-col md:flex-row">
         {/* Left sidebar — Navy */}
@@ -370,7 +370,6 @@ export function DocumentsScreen() {
         </div>
       </motion.div>
 
-      <DemoNav />
     </div>
   );
 }
