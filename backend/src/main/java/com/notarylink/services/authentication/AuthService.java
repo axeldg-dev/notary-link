@@ -12,6 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -20,6 +22,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final TwoFactorService twoFactorService;
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
@@ -34,10 +37,16 @@ public class AuthService {
                 .role(Role.USER)
                 .build();
 
+        String otp = twoFactorService.generateOtp();
+        user.setOtpCode(otp);
+        user.setOtpExpiry(LocalDateTime.now().plusMinutes(15));
+
         userRepository.save(user);
+        twoFactorService.sendOtp(user.getEmail(), otp);
 
         AuthResponse response = new AuthResponse();
         response.setAccessToken(jwtService.generateAccessToken(user));
+
         return response;
     }
 
@@ -47,6 +56,14 @@ public class AuthService {
         );
 
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
+
+        if (!user.isOtpVerified()) {
+            String otp = twoFactorService.generateOtp();
+            user.setOtpCode(otp);
+            user.setOtpExpiry(LocalDateTime.now().plusMinutes(15));
+            userRepository.save(user);
+            twoFactorService.sendOtp(user.getEmail(), otp);
+        }
 
         AuthResponse response = new AuthResponse();
         response.setAccessToken(jwtService.generateAccessToken(user));

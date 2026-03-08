@@ -42,11 +42,11 @@ public class JwtService {
                 .compact();
     }
 
-    public String generateRefreshToken(UserDetails user) {
+    public String generateVerificationToken(String userId) {
         return Jwts.builder()
-                .subject(user.getUsername())
+                .subject(userId)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
+                .expiration(new Date(System.currentTimeMillis() + 15 * 60 * 1000)) // 15 minutes
                 .signWith(getSignKey())
                 .compact();
     }

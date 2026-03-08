@@ -1,6 +1,7 @@
 import {useNavigate, useLocation} from 'react-router';
 import {useAppSelector, useAppDispatch} from "../store/hooks";
 import {selectIsAuthenticated, logout} from "../features/usersSlice";
+import {selectOtpVerified} from "../features/userSlice";
 import { motion, AnimatePresence } from 'motion/react';
 import React from "react";
 
@@ -17,12 +18,13 @@ export function AppNav() {
     const navigate = useNavigate();
     const location = useLocation();
     const isAuthenticated = useAppSelector(selectIsAuthenticated);
+    const otpVerified = useAppSelector(selectOtpVerified);
     const dispatch = useAppDispatch();
     const [hoveredPath, setHoveredPath] = React.useState<string | null>(null);
 
     return (
         <AnimatePresence>
-            {isAuthenticated && (
+            {isAuthenticated && otpVerified && (
                 <motion.div
                     initial={{ clipPath: 'inset(0 50% 0 50% round 50px)', opacity: 0 }}
                     animate={{ clipPath: 'inset(0 0% 0 0% round 50px)', opacity: 1 }}

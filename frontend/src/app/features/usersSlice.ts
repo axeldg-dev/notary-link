@@ -53,39 +53,26 @@ const usersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(register.pending, (state) => {
-        state.status = 'loading';
-        state.error = null;
-      })
+      .addCase(register.pending, (state) => { state.status = 'loading'; state.error = null; })
       .addCase(register.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.accessToken = action.payload.accessToken;
         localStorage.setItem('accessToken', action.payload.accessToken);
       })
-      .addCase(register.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload as string;
-      })
+      .addCase(register.rejected, (state, action) => { state.status = 'failed'; state.error = action.payload as string; })
 
-      .addCase(login.pending, (state) => {
-        state.status = 'loading';
-        state.error = null;
-      })
+      .addCase(login.pending, (state) => { state.status = 'loading'; state.error = null; })
       .addCase(login.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.accessToken = action.payload.accessToken;
         localStorage.setItem('accessToken', action.payload.accessToken);
       })
-      .addCase(login.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload as string;
-      });
+      .addCase(login.rejected, (state, action) => { state.status = 'failed'; state.error = action.payload as string; });
   },
 });
 
 export const { logout, resetAuthStatus } = usersSlice.actions;
 
-// Selectors
 export const selectToken = (state: { auth: AuthState }) => state.auth.accessToken;
 export const selectIsAuthenticated = (state: { auth: AuthState }) => !!state.auth.accessToken;
 export const selectAuthStatus = (state: { auth: AuthState }) => state.auth.status;
