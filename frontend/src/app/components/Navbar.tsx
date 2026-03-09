@@ -1,6 +1,6 @@
 import {useNavigate, useLocation} from 'react-router';
 import {useAppSelector, useAppDispatch} from "../store/hooks";
-import {selectIsAuthenticated, logout} from "../features/usersSlice";
+import {selectIsAuthenticated, logout} from "../features/authSlice";
 import {selectOtpVerified} from "../features/userSlice";
 import { motion, AnimatePresence } from 'motion/react';
 import React from "react";

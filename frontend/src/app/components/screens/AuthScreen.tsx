@@ -11,7 +11,7 @@ import {
     selectAuthError,
     selectAuthStatus,
     selectIsAuthenticated,
-} from '../../features/usersSlice';
+} from '../../features/authSlice';
 import {selectCurrentUser} from '../../features/userSlice';
 import React from "react";
 

@@ -9,7 +9,7 @@ import { OtpScreen } from './components/screens/OtpScreen';
 import { AppNav } from './components/Navbar';
 import React from "react";
 import { useAppSelector } from './store/hooks';
-import { selectIsAuthenticated } from './features/usersSlice';
+import { selectIsAuthenticated } from './features/authSlice';
 import { selectOtpVerified } from './features/userSlice';
 
 function RootLayout() {

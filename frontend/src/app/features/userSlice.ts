@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getCurrentUserApi, verifyOtpApi, resendOtpApi } from '../api/userApi';
 import type { UserDto } from '../api/userApi';
-import { logout } from './usersSlice';
+import { logout } from './authSlice';
 
 interface UserState {
   user: UserDto | null;

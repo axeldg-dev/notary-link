@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {RouterProvider} from 'react-router';
 import {router} from './routes';
 import {useAppDispatch, useAppSelector} from './store/hooks';
-import {logout, selectToken} from './features/usersSlice';
+import {logout, selectToken} from './features/authSlice';
 import {fetchCurrentUser} from './features/userSlice';
 
 function AppBootstrap() {

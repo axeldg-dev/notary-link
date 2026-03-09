@@ -36,7 +36,7 @@ export const login = createAsyncThunk<AuthApiResponse, LoginPayload>(
   }
 );
 
-const usersSlice = createSlice({
+const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
@@ -71,11 +71,11 @@ const usersSlice = createSlice({
   },
 });
 
-export const { logout, resetAuthStatus } = usersSlice.actions;
+export const { logout, resetAuthStatus } = authSlice.actions;
 
 export const selectToken = (state: { auth: AuthState }) => state.auth.accessToken;
 export const selectIsAuthenticated = (state: { auth: AuthState }) => !!state.auth.accessToken;
 export const selectAuthStatus = (state: { auth: AuthState }) => state.auth.status;
 export const selectAuthError = (state: { auth: AuthState }) => state.auth.error;
 
-export default usersSlice.reducer;
+export default authSlice.reducer;
