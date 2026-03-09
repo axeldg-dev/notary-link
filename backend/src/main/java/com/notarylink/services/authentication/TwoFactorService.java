@@ -22,7 +22,7 @@ public class TwoFactorService {
 
     public void sendOtp(String email, String otp) {
         SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setFrom("axeldung2004@gmail.com");
+        mail.setFrom("notarylink@demomailtrap.co");
         mail.setTo(email);
         mail.setSubject("Code de vérification NotaryLink");
         mail.setText("Votre code de vérification est : " + otp + "\n\nCe code expire dans 15 minutes.");
