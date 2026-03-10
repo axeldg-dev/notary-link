@@ -1,7 +1,7 @@
 package com.notarylink.model.entities;
 
 import com.notarylink.model.enums.ProjectStatus;
-import com.notarylink.model.enums.ProjectType;
+import com.notarylink.model.enums.ProjectTypeCode;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = {"checklistItems", "documents", "transmissions", "conversations"})
+@ToString(exclude = {"checklistItems", "documents", "transmissions", "conversations", "projectDocuments"})
 public class Project {
 
     @Id
@@ -33,9 +33,15 @@ public class Project {
     @JoinColumn(name = "notary_id", nullable = true)
     private Notary notary;
 
+    /** Legacy enum column — kept for backward compat with existing rows. */
     @Enumerated(EnumType.STRING)
-    @Column(length = 30)
-    private ProjectType type;
+    @Column(name = "type", length = 30)
+    private ProjectTypeCode typeCode;
+
+    /** New FK to project_types table. */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_type_id", nullable = true)
+    private ProjectType projectType;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
@@ -71,4 +77,7 @@ public class Project {
 
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private List<AiConversation> conversations;
+
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProjectDocument> projectDocuments;
 }

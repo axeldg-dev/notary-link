@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate, Outlet } from 'react-router';
 import { AuthScreen } from './components/screens/AuthScreen';
 import { HomeScreen } from './components/screens/HomeScreen';
-import { ProjectChoiceScreen } from './components/screens/ProjectChoiceScreen';
+import { ProjectsScreen } from './components/screens/ProjectsScreen';
 import { DocumentsScreen } from './components/screens/DocumentsScreen';
 import { PatrimoineScreen } from './components/screens/PatrimoineScreen';
 import { SendScreen } from './components/screens/SendScreen';
@@ -47,7 +47,8 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute />,
         children: [
           { path: '/home', Component: HomeScreen },
-          { path: '/projet', Component: ProjectChoiceScreen },
+          { path: '/projets', Component: ProjectsScreen },
+          { path: '/projets/:projectId/documents', Component: DocumentsScreen },
           { path: '/documents', Component: DocumentsScreen },
           { path: '/patrimoine', Component: PatrimoineScreen },
           { path: '/envoi', Component: SendScreen },

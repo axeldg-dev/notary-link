@@ -224,7 +224,7 @@ export function HomeScreen() {
               description="Achat immobilier, succession, donation…"
               cta="Commencer"
               ctaVariant="gold"
-              onClick={() => navigate('/projet')}
+              onClick={() => navigate('/projets')}
             />
           </motion.div>
 

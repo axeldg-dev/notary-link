@@ -8,7 +8,7 @@ import React from "react";
 const NAV_SCREENS = [
     {path: '/', label: 'Déconnexion'},
     {path: '/home', label: 'Accueil'},
-    {path: '/projet', label: 'Projet'},
+    {path: '/projets', label: 'Projets'},
     {path: '/documents', label: 'Documents'},
     {path: '/patrimoine', label: 'Patrimoine'},
     {path: '/envoi', label: 'Envoi'},
